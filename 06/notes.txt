@@ -1,0 +1,14 @@
+Part 1:
+A data parsing exercise
+
+Part 2:
+Trivial
+
+notes:
+Could be interesting to read each persons 26 question answers as an integer 0 <= x < 2^26
+then part 1 becomes bitwise OR
+and part 2 becomes bitwise AND
+
+My preferred input format for this data would include an initial integer for the number of groups, and
+then at the beginning of each group, an integer indicated the size of the group in advance, instead of newline
+delimiting.
