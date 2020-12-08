@@ -1,0 +1,17 @@
+This is O(N^2) soln:
+Check each of the N inputs and run them to completetion (or detect infinite loop) to find the one that actually terminates.
+
+Because there is only 600ish instructions, this executes immediately.
+
+
+O(N) soln:
+yeah basically you just define the function f[i] which is true iff the program terminates from i
+
+since there is only 1 possible next step from i, say step j (in the unaltered program)
+then f[i] = f[j]
+
+so you can compute f[i] for all i in O(N) time by caching your results
+[You do end up building a bit of a stack, but its still takes O(N) time]
+
+Now, it remains to check each i which is reachable from 0, and see if the alternative path from instruction i, takes you
+to an instruction k with f[k]=true. It takes O(N) to find this, and we're done.
