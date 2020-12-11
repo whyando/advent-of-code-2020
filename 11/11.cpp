@@ -11,16 +11,23 @@ int main() {
     for(int i=0;i<H;i++)
         cin >> A[i];
     int W=A[0].size();
-
-    while(true){
+    
+    while(true) {
         vector<vector<int>> adj(H, vector<int>(W, 0));
         for(int i=0;i<H;i++) {
             for(int j=0;j<W;j++) {
                 adj[i][j] = 0;
-                for(auto [di, dj] : vector<pair<int,int>>{{0,1},{0,-1},{1,0},{-1,0},{-1,-1},{-1,1},{1,-1},{1,1}}) {
+                for(auto [di, dj] : vector<pair<int,int>>{{0,1},{0,-1},{1,0},{-1,0},{-1,-1},{-1,1},{1,-1},{1,1}}) {                    
                     int i1 = i +di; int j1 = j+dj;
-                    if(i1 >=0 && i1<H && j1>=0 && j1<W) 
-                        adj[i][j] += (A[i1][j1] == '#');                
+                    while(true) {                        
+                        if(!(i1 >=0 && i1<H && j1>=0 && j1<W)) 
+                            break;
+                        if(A[i1][j1] != '.') {
+                            adj[i][j] += (A[i1][j1] == '#');
+                            break;
+                        }
+                        i1 += di; j1 += dj;
+                    }               
                 }
             }
         }
@@ -33,7 +40,7 @@ int main() {
                     A[i][j] = '#';
                     swaps++;
                 }
-                else if (A[i][j] == '#' && adj[i][j] >= 4) {
+                else if (A[i][j] == '#' && adj[i][j] >= 5) {
                     A[i][j] = 'L';
                     swaps++;
                 }
