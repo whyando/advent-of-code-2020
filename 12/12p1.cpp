@@ -19,40 +19,30 @@ int main() {
         //cout << dir[i] << " " << amm[i] << endl;
     }
 
-    int s_x=0,s_y=0;
-    int w_x=10,w_y=1;
+    int x=0,y=0,rot=0;
     for(int i=0;i<N;i++) {
         char d=dir[i];
         int a=amm[i];
-        if(d == 'N')   w_y+=a;
-        else if(d == 'S') w_y-=a;
-        else if(d == 'E') w_x+=a;
-        else if(d == 'W') w_x-=a;
+        if(d == 'N')   y+=a;
+        else if(d == 'S') y-=a;
+        else if(d == 'E') x+=a;
+        else if(d == 'W') x-=a;
         else if(d == 'L') {
             assert(a==90 || a==270 || a==180);
-            for(int k=1;k<=a/90;k++) {
-                int ph = w_y;
-                w_y = w_x;
-                w_x = -ph;
-            }
+            rot+=(a/90);
         }
         else if(d == 'R') {
             assert(a==90 || a==270 || a==180);
-            a = 360-a;
-            for(int k=1;k<=a/90;k++) {
-                int ph = w_y;
-                w_y = w_x;
-                w_x = -ph;
-            }
+            rot-=(a/90);
         }
         else if(d == 'F') {
-            s_x += w_x*a;
-            s_y += w_y*a;
+            rot = ((rot%4)+4)%4;
+            x += compass[rot].first*a;
+            y += compass[rot].second*a;
         }
-        cout << s_x << " " << s_y << endl;
     }
 
-    cout << s_x << " " << s_y << "\t" << abs(s_x) + abs(s_y) << endl;
+    cout << x << " " << y << "\t" << abs(x) + abs(y) << endl;
 
     return 0;
 }
