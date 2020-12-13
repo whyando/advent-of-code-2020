@@ -1,0 +1,7 @@
+I solved part 2 with an implementation of solving chinese remainder theorem (via extended euclidean), but it seems there is an some easier (although less efficient way in)
+
+Straight brute force is way too slow, however there is a slight modification you can make:
+1. Brute force until you have a solve for the first two buses.
+2. Understand that this solution reoccurs precisely with period N*M where N,M are the IDs of the buses 
+3. To get a solution for the next bus included, we jump forward N*M in each step of the brute force search, since this preserves the result for the
+   previous buses
