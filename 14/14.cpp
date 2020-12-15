@@ -69,7 +69,7 @@ int main() {
 
     int64_t sum = 0;
     for(auto [k,v]:mem){
-        cout << k << ":" << v << endl;
+        // cout << k << ":" << v << endl;
         sum += v;
     }
     cout << "sum=" << sum << endl;
