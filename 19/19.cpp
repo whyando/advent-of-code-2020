@@ -71,6 +71,39 @@ bool does_match(int rule_id, string s) {
     return false;
 }
 
+bool does_match_0(int rule_id, string s) {
+    if(s.size()%8!=0) return false; // |42| = |31| = 8
+    int n = s.size()/8;
+    for(int a=2;a<n;a++) {
+        int b=n-a;
+        if(!(b>=1 && a>b)) continue;
+
+        bool match = true;
+        int next = 0;
+        for(int k=1;k<=a;k++){
+            if(does_match_w(42, s.substr(next, match_len[42])))
+                next += match_len[42];
+            else {
+                match = false;
+                break;
+            }
+        }
+        for(int k=1;k<=b;k++){
+            if(does_match_w(31, s.substr(next, match_len[31])))
+                next += match_len[31];
+            else {
+                match = false;
+                break;
+            }
+        }
+        if(match) {
+            assert(next == s.length());
+            return true;
+        }
+    }
+    return false;
+}
+
 int main() {
     // read input
     string line;
@@ -147,8 +180,7 @@ int main() {
 
     int count = 0;
     while(getline(cin, line)) {
-        if(line.size() != match_len[0]) continue;
-        bool ans = does_match_w(0, line);
+        bool ans = does_match_0(0, line);
         cout << ans << "\t" << line << endl;
         count += ans;
     }
