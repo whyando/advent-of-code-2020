@@ -175,9 +175,6 @@ int main() {
         match_len[rule] = len1;
     }
 
-    for(int i=0;i<exit_order.size();i++)
-        cout << i << ":\t" << match_len[i] << endl;
-
     int count = 0;
     while(getline(cin, line)) {
         bool ans = does_match_0(0, line);
