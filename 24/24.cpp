@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    map<pair<int,int>, bool> is_black;
+    set<pair<int,int>> is_black;
 
     // Parse input
     string line;
@@ -26,17 +26,18 @@ int main() {
         int y = cnt["ne"] - cnt["sw"] + cnt["nw"] - cnt["se"];
 
         // flip
-        is_black[{x,y}] = !is_black[{x,y}];
+        if(is_black.count({x,y}) == 1) {
+            is_black.erase({x,y});
+        } else {
+            is_black.insert({x,y});
+        }
     }
 
     for(int t=1;t<=100;t++) {
         // Count adjacent black tiles
-        // Make sure 'adj_black' contains a key for all current black tiles as well as any tile adjacent to a black tile
+        // NOTE: Not necessary to make sure 'adj_black' contains a key for all current black tiles not adjacent to any other black tile, since those tiles are turned to white anyway
         map<pair<int,int>, int> adj_black;
-        for(auto [k,v]:is_black) {
-            if(!v) continue;
-            auto [x,y]=k;
-            adj_black.insert({{x,y}, 0}); // fails if element exists
+        for(auto [x,y]:is_black) {
             adj_black[{x+1,y}]++;
             adj_black[{x-1,y}]++;
             adj_black[{x,y+1}]++;
@@ -46,24 +47,22 @@ int main() {
         }
 
         // Flip tiles, based on adjacency rules
-        int num_black=0;
-        map<pair<int,int>, bool> is_black_next = is_black;
-        for(auto [k,num_adj]:adj_black) {
-            auto [x,y]=k;
+        set<pair<int,int>> is_black_next;
+        for(auto [key,num_adj]:adj_black) {
             bool flip;
-            if(is_black[{x,y}]){
+            if(is_black.count(key)){
                 flip = (num_adj == 0 || num_adj > 2);
+                if(!flip)
+                    is_black_next.insert(key);
             } else {
                 flip = (num_adj == 2);
+                if(flip)
+                    is_black_next.insert(key);
             }
-            if(flip)
-                is_black_next[{x,y}] = !is_black_next[{x,y}];
-            num_black += is_black_next[{x,y}];
         }
-        cout << "Day " << t << ":" << num_black << endl;
-
         swap(is_black, is_black_next);
     }
+    cout << is_black.size() << endl;
 
     return 0;
 }
